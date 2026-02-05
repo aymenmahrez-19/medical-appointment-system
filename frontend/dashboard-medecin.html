@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👨‍⚕️ Médecin - Clinique Santé+</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/dashboard.css">
+</head>
+<body class="dashboard-page">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span class="logo-icon">🏥</span>
+            <span class="logo-text">Clinique Santé+</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-section="overview"><span class="nav-icon">📊</span> Mes consultations</a>
+            <a href="#" class="nav-item" data-section="schedule"><span class="nav-icon">📅</span> Planning</a>
+            <a href="#" class="nav-item" data-section="patients"><span class="nav-icon">👥</span> Mes patients</a>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="btn btn-logout" onclick="logout()">🚪 Déconnexion</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+            <h1 class="page-title">👨‍⚕️ Espace Médecin</h1>
+            <div class="header-user">
+                <span id="userName">Docteur</span>
+                <div class="user-avatar">👨‍⚕️</div>
+            </div>
+        </header>
+
+        <div class="content-area">
+            <section id="section-overview" class="dashboard-section active">
+                <div class="stats-grid">
+                    <div class="stat-card gradient-blue">
+                        <div class="stat-icon">📅</div>
+                        <div class="stat-info"><span class="stat-value" id="todayRdv">0</span><span class="stat-label">Aujourd'hui</span></div>
+                    </div>
+                    <div class="stat-card gradient-purple">
+                        <div class="stat-icon">📆</div>
+                        <div class="stat-info"><span class="stat-value" id="weekRdv">0</span><span class="stat-label">Cette semaine</span></div>
+                    </div>
+                    <div class="stat-card gradient-green">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-info"><span class="stat-value" id="totalPatients">0</span><span class="stat-label">Patients</span></div>
+                    </div>
+                    <div class="stat-card gradient-orange">
+                        <div class="stat-icon">⏰</div>
+                        <div class="stat-info"><span class="stat-value" id="nextRdv">-</span><span class="stat-label">Prochain</span></div>
+                    </div>
+                </div>
+                <div class="data-card">
+                    <div class="card-header">
+                        <h3>📋 Consultations du jour</h3>
+                        <button class="btn btn-small btn-primary" onclick="refreshData()">🔄</button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>Heure</th><th>Patient</th><th>Téléphone</th><th>Motif</th><th>Statut</th><th>Actions</th></tr></thead>
+                            <tbody id="todayRdvTableBody"><tr><td colspan="6" class="loading-cell">Chargement...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="section-schedule" class="dashboard-section">
+                <div class="data-card">
+                    <div class="card-header">
+                        <h3>📅 Mon planning</h3>
+                        <input type="date" id="scheduleDate" onchange="loadSchedule()">
+                    </div>
+                    <div class="schedule-grid" id="scheduleGrid">
+                        <p style="text-align: center; padding: 40px; color: #888;">Sélectionnez une date pour voir le planning</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="section-patients" class="dashboard-section">
+                <div class="data-card">
+                    <div class="card-header"><h3>👥 Historique des patients</h3></div>
+                    <div class="table-container">
+                        <table>
+                            <thead><tr><th>Patient</th><th>Téléphone</th><th>Dernière visite</th><th>Visites</th></tr></thead>
+                            <tbody id="patientsTableBody"><tr><td colspan="4" class="loading-cell">Chargement...</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 id="modalTitle">Notes</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal()">Fermer</button>
+                <button class="btn btn-primary" id="modalSaveBtn">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+    <div id="toast" class="toast"></div>
+    <script src="/dashboard.js"></script>
+</body>
+</html>
+

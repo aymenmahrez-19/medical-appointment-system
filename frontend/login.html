@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Connexion - Clinique Santé+</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        .auth-container { width: 100%; max-width: 480px; }
+        .auth-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.35);
+            overflow: hidden;
+            animation: slideUp 0.6s ease;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .auth-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        .auth-header .logo-icon { font-size: 56px; display: block; margin-bottom: 15px; }
+        .auth-header .logo-text { display: block; font-size: 28px; font-weight: 700; margin-bottom: 10px; }
+        .auth-header h1 { margin: 0; font-size: 24px; font-weight: 500; opacity: 0.95; }
+        .auth-form { padding: 40px; }
+        .form-group { margin-bottom: 24px; }
+        .form-group label {
+            display: flex; align-items: center; gap: 8px;
+            font-weight: 600; color: #333; margin-bottom: 10px; font-size: 14px;
+        }
+        .form-group input {
+            width: 100%; padding: 16px 20px;
+            border: 2px solid #e0e0e0; border-radius: 12px;
+            font-size: 16px; font-family: inherit; transition: all 0.3s ease;
+        }
+        .form-group input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+            outline: none;
+        }
+        .btn {
+            display: inline-block; padding: 16px 32px;
+            font-size: 16px; font-weight: 600; font-family: inherit;
+            border: none; border-radius: 12px; cursor: pointer;
+            transition: all 0.3s ease; text-decoration: none; text-align: center;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        .btn-block { width: 100%; }
+        .auth-divider {
+            text-align: center; margin: 30px 40px; position: relative;
+        }
+        .auth-divider::before, .auth-divider::after {
+            content: ''; position: absolute; top: 50%; width: 35%; height: 1px; background: #e0e0e0;
+        }
+        .auth-divider::before { left: 0; }
+        .auth-divider::after { right: 0; }
+        .auth-divider span {
+            background: white; padding: 0 20px; color: #888; font-size: 14px; font-weight: 500;
+        }
+        .demo-accounts {
+            padding: 0 40px 40px;
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+        }
+        .demo-btn {
+            display: flex; align-items: center; gap: 12px; padding: 16px;
+            background: #f8f9fc; border: 2px solid transparent; border-radius: 14px;
+            cursor: pointer; transition: all 0.3s ease; text-align: left; font-family: inherit;
+        }
+        .demo-btn:hover {
+            background: white; border-color: #667eea;
+            transform: translateY(-3px); box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+        }
+        .demo-icon {
+            font-size: 28px; width: 50px; height: 50px;
+            display: flex; align-items: center; justify-content: center;
+            background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .demo-info strong { display: block; font-size: 14px; color: #333; margin-bottom: 2px; }
+        .demo-info small { font-size: 12px; color: #888; }
+        .auth-footer {
+            text-align: center; padding: 25px 40px;
+            background: #f8f9fc; border-top: 1px solid #eee;
+        }
+        .auth-footer a { color: #667eea; text-decoration: none; font-weight: 600; transition: color 0.3s ease; }
+        .auth-footer a:hover { color: #764ba2; }
+        .error-message {
+            background: #fee2e2; color: #dc2626; padding: 12px 16px;
+            border-radius: 10px; margin-bottom: 20px; font-size: 14px; display: none;
+        }
+        .error-message.show { display: block; animation: shake 0.5s ease; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .loading-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.9);
+            display: none; align-items: center; justify-content: center; z-index: 1000;
+        }
+        .loading-overlay.show { display: flex; }
+        .loading-spinner {
+            width: 50px; height: 50px;
+            border: 4px solid #e0e0e0; border-top-color: #667eea;
+            border-radius: 50%; animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @media (max-width: 520px) {
+            .demo-accounts { grid-template-columns: 1fr; }
+            .auth-form, .auth-header { padding: 30px 25px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <span class="logo-icon">🏥</span>
+                <span class="logo-text">Clinique Santé+</span>
+                <h1>Connexion à votre espace</h1>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+                <div id="errorMessage" class="error-message"></div>
+
+                <div class="form-group">
+                    <label for="email"><span>📧</span> Adresse email</label>
+                    <input type="email" id="email" placeholder="votre.email@exemple.com" required autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="password"><span>🔒</span> Mot de passe</label>
+                    <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">🔐 Se connecter</button>
+            </form>
+
+            <div class="auth-divider"><span>Comptes de démonstration</span></div>
+
+            <div class="demo-accounts">
+                <button type="button" class="demo-btn" onclick="loginDemo('admin@clinique.fr', 'admin123')">
+                    <span class="demo-icon">👑</span>
+                    <span class="demo-info"><strong>Administrateur</strong><small>Accès complet</small></span>
+                </button>
+                <button type="button" class="demo-btn" onclick="loginDemo('secretariat@clinique.fr', 'admin123')">
+                    <span class="demo-icon">💼</span>
+                    <span class="demo-info"><strong>Secrétaire</strong><small>Gestion RDV</small></span>
+                </button>
+                <button type="button" class="demo-btn" onclick="loginDemo('martin.dupont@clinique.fr', 'medecin123')">
+                    <span class="demo-icon">👨‍⚕️</span>
+                    <span class="demo-info"><strong>Médecin</strong><small>Dr. Dupont</small></span>
+                </button>
+                <button type="button" class="demo-btn" onclick="loginDemo('patient@test.fr', 'patient123')">
+                    <span class="demo-icon">👤</span>
+                    <span class="demo-info"><strong>Patient</strong><small>Mes rendez-vous</small></span>
+                </button>
+            </div>
+
+            <div class="auth-footer">
+                <a href="/app">← Retour à l'accueil</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkSession();
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        });
+
+        async function checkSession() {
+            try {
+                const res = await fetch(`${API_URL}/api/auth/me`, { credentials: 'include' });
+                if (res.ok) {
+                    const user = await res.json();
+                    redirectToDashboard(user.role);
+                }
+            } catch (e) { console.log('No existing session'); }
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            await performLogin(document.getElementById('email').value, document.getElementById('password').value);
+        }
+
+        async function loginDemo(email, password) {
+            document.getElementById('email').value = email;
+            document.getElementById('password').value = password;
+            await performLogin(email, password);
+        }
+
+        async function performLogin(email, password) {
+            showLoading(true);
+            hideError();
+            try {
+                const res = await fetch(`${API_URL}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ email: email, mot_de_passe: password })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.detail || 'Identifiants invalides');
+                redirectToDashboard(data.role);
+            } catch (err) {
+                showLoading(false);
+                showError(err.message);
+            }
+        }
+
+        function redirectToDashboard(role) {
+            const dashboards = {
+                'admin': '/dashboard-admin.html',
+                'secretaire': '/dashboard-secretaire.html',
+                'medecin': '/dashboard-medecin.html',
+                'patient': '/dashboard-patient.html'
+            };
+            window.location.href = dashboards[role] || '/app';
+        }
+
+        function showLoading(show) { document.getElementById('loadingOverlay').classList.toggle('show', show); }
+        function showError(message) {
+            const el = document.getElementById('errorMessage');
+            el.textContent = '❌ ' + message;
+            el.classList.add('show');
+        }
+        function hideError() { document.getElementById('errorMessage').classList.remove('show'); }
+    </script>
+</body>
+</html>
+

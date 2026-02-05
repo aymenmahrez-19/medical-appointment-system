@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏥 Clinique Médicale - Rendez-vous en ligne</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- En-tête -->
+<header class="header">
+    <div class="container">
+        <div class="logo">
+            <span class="logo-icon">🏥</span>
+            <span class="logo-text">Clinique Santé+</span>
+        </div>
+        <nav class="nav">
+            <a href="#accueil">Accueil</a>
+            <a href="#medecins">Médecins</a>
+            <a href="#reservation">Réserver</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="auth-actions" style="display: flex; align-items: center; gap: 15px;">
+            <span id="roleBadge" class="role-badge" style="display:none; background: rgba(102,126,234,0.15); color: #667eea; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;"></span>
+            <a href="/login.html" id="btnAuth" class="btn btn-primary btn-small" style="white-space: nowrap; text-decoration: none;">
+                🔐 Connexion
+            </a>
+        </div>
+        <button class="menu-mobile" onclick="toggleMenu()">☰</button>
+    </div>
+</header>
+
+<!-- Section Hero -->
+<section id="accueil" class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Bienvenue à la Clinique Santé+</h1>
+            <p>Prenez rendez-vous en ligne facilement avec notre assistant médical intelligent</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="ouvrirChat()">
+                    💬 Parler à l'assistant
+                </button>
+                <a href="#reservation" class="btn btn-outline">
+                    📅 Réserver maintenant
+                </a>
+            </div>
+        </div>
+        <div class="hero-cards">
+            <div class="hero-card">
+                <div class="card-icon">👨‍⚕️</div>
+                <h3>4 Spécialistes</h3>
+                <p>À votre service</p>
+            </div>
+            <div class="hero-card">
+                <div class="card-icon">⏰</div>
+                <h3>Lun - Ven</h3>
+                <p>9h - 17h</p>
+            </div>
+            <div class="hero-card">
+                <div class="card-icon">🤖</div>
+                <h3>Chatbot IA</h3>
+                <p>24h/24</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section Médecins -->
+<section id="medecins" class="section-medecins">
+    <div class="container">
+        <h2 class="section-title">👨‍⚕️ Notre Équipe Médicale</h2>
+        <p class="section-subtitle">Des professionnels qualifiés à votre écoute</p>
+
+        <div class="medecins-grid" id="medecinsList">
+            <!-- Chargé dynamiquement via JavaScript -->
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Chargement des médecins...</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section Réservation -->
+<section id="reservation" class="section-reservation">
+    <div class="container">
+        <h2 class="section-title">📅 Prendre Rendez-vous</h2>
+        <p class="section-subtitle">Réservez votre consultation en quelques clics</p>
+
+        <form id="formReservation" class="form-reservation">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="specialite">
+                        <span class="label-icon">🏥</span> Spécialité
+                    </label>
+                    <select id="specialite" required>
+                        <option value="">Choisir une spécialité...</option>
+                        <option value="Médecine Générale">Médecine Générale</option>
+                        <option value="Cardiologie">Cardiologie</option>
+                        <option value="Dentiste">Dentiste</option>
+                        <option value="Pédiatrie">Pédiatrie</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="medecin">
+                        <span class="label-icon">👨‍⚕️</span> Médecin
+                    </label>
+                    <select id="medecin" required disabled>
+                        <option value="">Choisir un médecin...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="date">
+                        <span class="label-icon">📆</span> Date
+                    </label>
+                    <input type="date" id="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="heure">
+                        <span class="label-icon">⏰</span> Heure
+                    </label>
+                    <select id="heure" required disabled>
+                        <option value="">Choisir une heure...</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nomPatient">
+                        <span class="label-icon">👤</span> Nom complet
+                    </label>
+                    <input type="text" id="nomPatient" placeholder="Votre nom complet" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telephone">
+                        <span class="label-icon">📞</span> Téléphone
+                    </label>
+                    <input type="tel" id="telephone" placeholder="06 12 34 56 78" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="motif">
+                    <span class="label-icon">📝</span> Motif de consultation (optionnel)
+                </label>
+                <textarea id="motif" rows="3" placeholder="Décrivez brièvement le motif de votre visite..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+                ✅ Confirmer le rendez-vous
+            </button>
+        </form>
+    </div>
+</section>
+
+<!-- Section Contact -->
+<section id="contact" class="section-contact">
+    <div class="container">
+        <h2 class="section-title">📞 Nous Contacter</h2>
+        <p class="section-subtitle">Nous sommes à votre disposition</p>
+
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon">📍</div>
+                <h3>Adresse</h3>
+                <p>123 Avenue de la Santé<br>75000 Paris, France</p>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">📞</div>
+                <h3>Téléphone</h3>
+                <p>01 23 45 67 89</p>
+                <p class="small">Urgences: 15</p>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">📧</div>
+                <h3>Email</h3>
+                <p>contact@clinique-sante.fr</p>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-icon">⏰</div>
+                <h3>Horaires</h3>
+                <p>Lundi - Vendredi<br>9h00 - 17h00</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-icon">🏥</span>
+                <span class="logo-text">Clinique Santé+</span>
+            </div>
+            <p>© 2024 Clinique Santé+. Tous droits réservés.</p>
+            <p class="footer-note">Système de gestion des rendez-vous médicaux avec IA</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Widget Chatbot -->
+<div id="chatWidget" class="chat-widget">
+    <div class="chat-header">
+        <div class="chat-header-info">
+            <span class="chat-avatar">🤖</span>
+            <div>
+                <span class="chat-title">Assistant Médical</span>
+                <span class="chat-status">En ligne</span>
+            </div>
+        </div>
+        <button class="chat-close" onclick="fermerChat()">✕</button>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+        <div class="message bot">
+            <div class="message-avatar">🤖</div>
+            <div class="message-content">
+                <p>Bonjour ! 👋 Je suis l'assistant médical de la Clinique Santé+.</p>
+                <p>Je peux vous aider à :</p>
+                <ul>
+                    <li>📋 Voir nos médecins</li>
+                    <li>📅 Prendre rendez-vous</li>
+                    <li>❌ Annuler un RDV</li>
+                    <li>❓ Répondre à vos questions</li>
+                </ul>
+                <p>Comment puis-je vous aider ?</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-suggestions" id="chatSuggestions">
+        <button onclick="envoyerSuggestion('Voir les médecins')">👨‍⚕️ Médecins</button>
+        <button onclick="envoyerSuggestion('Prendre rendez-vous')">📅 RDV</button>
+        <button onclick="envoyerSuggestion('Horaires')">⏰ Horaires</button>
+    </div>
+
+    <div class="chat-input-container">
+        <input
+                type="text"
+                id="chatInput"
+                placeholder="Écrivez votre message..."
+                onkeypress="gererToucheEntree(event)"
+        >
+        <button class="chat-send" onclick="envoyerMessage()">
+            <span>➤</span>
+        </button>
+    </div>
+</div>
+
+<!-- Bouton Toggle Chat -->
+<button id="chatToggle" class="chat-toggle" onclick="toggleChat()">
+    <span class="chat-toggle-icon">💬</span>
+    <span class="chat-toggle-badge" id="chatBadge" style="display: none;">1</span>
+</button>
+
+<!-- Notification Toast -->
+<div id="toast" class="toast"></div>
+
+<!-- Modal de confirmation -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Confirmation</h3>
+            <button class="modal-close" onclick="fermerModal()">✕</button>
+        </div>
+        <div class="modal-body" id="modalBody">
+            <!-- Contenu dynamique -->
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="fermerModal()">Fermer</button>
+        </div>
+    </div>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>

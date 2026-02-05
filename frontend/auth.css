@@ -1,0 +1,31 @@
+/* Auth page shared styles (if needed by other pages) */
+body.auth-page {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Poppins', sans-serif;
+}
+
+.auth-card {
+    max-width: 480px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+    overflow: hidden;
+}
+
+.auth-card .header {
+    padding: 32px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+}
+
+.auth-card .body {
+    padding: 28px;
+}
+
+.auth-card .footer {
+    padding: 16px 28px;
+    background: #f8f9fc;
+    text-align: center;
+}
+
