@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
     <data-source source="LOCAL" name="medical_appointments" uuid="96fb4ecf-0465-43c8-b898-447df610b402">
-      <driver-ref>sqlite.xerial</driver-ref>
+      <driver-ref>02138a08-c9f3-4fe7-85a7-c600ad444c9f</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/backend/medical_appointments.db</jdbc-url>
